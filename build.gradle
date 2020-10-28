@@ -1,0 +1,32 @@
+plugins {
+	id 'antlr'
+    id 'java'
+}
+
+group 'com.peterabyte'
+version '1.0.0-SNAPSHOT'
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+def junitVersion = '4.11'
+def mockitoVersion = '1.9.5'
+def assertjVersion = '2.0.0'
+def cucumberVersion = '3.0.2'
+def antlrVersion = '4.7.1'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    testImplementation("junit:junit:$junitVersion")
+    testImplementation("org.mockito:mockito-core:$mockitoVersion")
+    testImplementation("org.assertj:assertj-core:$assertjVersion")
+    testImplementation("io.cucumber:cucumber-junit:$cucumberVersion")
+    testImplementation("io.cucumber:cucumber-java:$cucumberVersion")
+    antlr("org.antlr:antlr4:$antlrVersion")
+}
+
+generateGrammarSource {
+    arguments += ["-visitor"]
+}
