@@ -19,12 +19,14 @@ public class ParserStepDefinitions {
 
     @Then("^calculator should return$")
     public void then_calculator_should_return(String content) throws IOException {
-        try (Reader reader = new StringReader(content)) {
+        try (Reader reader = new StringReader(this.content)) {
             CalculatorLexer lexer = new CalculatorLexer(new ANTLRInputStream(reader));
             CommonTokenStream tokenStream = new CommonTokenStream(lexer);
             CalculatorParser parser = new CalculatorParser(tokenStream);
             CalculatorParser.ExpressionsContext expressionsContext = parser.expressions();
-
+            CalculatorExpression calculatorExpression = expressionsContext.accept(new CalculatorExpressionVisitor());
+            ExprContext exprContext = new DefaultExprContext();
+            calculatorExpression.exec(exprContext);
         }
     }
 }

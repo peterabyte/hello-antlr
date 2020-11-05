@@ -6,11 +6,11 @@ package com.peterabyte.helloantlr;
 
 expressions : (expr SEMICOLON)*;
 
-expr : NUMBER #numberExpr
-     | expr ADD expr #addExpr
-     | expr SUB expr #subExpr
-     | IDENTIFIER EQ expr #assignExpr
-     | FUNCTION PAR_START expr (COMMA expr)* PAR_END #functionExpr
+expr : NUMBER                                                       #numberExpr
+     | IDENTIFIER                                                   #idExpr
+     | left=expr op=(ADD | SUB) right=expr                          #binaryExpr
+     | IDENTIFIER EQ value=expr                                     #assignExpr
+     | name=PRINT PAR_START args+=expr (COMMA args+=expr)* PAR_END  #functionExpr
      ;
 
 ADD : '+';
@@ -19,7 +19,7 @@ SUB : '-';
 
 EQ : '=';
 
-FUNCTION : 'print';
+PRINT : 'print';
 
 PAR_START : '(';
 
