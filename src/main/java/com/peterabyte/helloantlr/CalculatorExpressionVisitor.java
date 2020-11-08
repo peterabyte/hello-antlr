@@ -1,9 +1,12 @@
 package com.peterabyte.helloantlr;
 
+import com.peterabyte.helloantlr.expr.Abs;
 import com.peterabyte.helloantlr.expr.Add;
 import com.peterabyte.helloantlr.expr.Assign;
 import com.peterabyte.helloantlr.expr.Expression;
 import com.peterabyte.helloantlr.expr.ExprSeq;
+import com.peterabyte.helloantlr.expr.Max;
+import com.peterabyte.helloantlr.expr.Min;
 import com.peterabyte.helloantlr.expr.Variable;
 import com.peterabyte.helloantlr.expr.Number;
 import com.peterabyte.helloantlr.expr.Print;
@@ -55,7 +58,7 @@ public class CalculatorExpressionVisitor extends CalculatorBaseVisitor<Expressio
     }
 
     @Override
-    public Expression visitFunctionExpr(CalculatorParser.FunctionExprContext ctx) {
+    public Expression visitFunctionExprMultiArgs(CalculatorParser.FunctionExprMultiArgsContext ctx) {
         List<Expression> args = new ArrayList<>();
         for (CalculatorParser.ExprContext exprContext : ctx.args) {
             args.add(visit(exprContext));
@@ -63,6 +66,20 @@ public class CalculatorExpressionVisitor extends CalculatorBaseVisitor<Expressio
         switch (ctx.name.getType()) {
             case CalculatorParser.PRINT:
                 return new Print(args);
+            case CalculatorParser.MIN:
+                return new Min(args);
+            case CalculatorParser.MAX:
+                return new Max(args);
+            default:
+                throw new CalculatorParserException("Failed to create calculator function! " + ctx);
+        }
+    }
+
+    @Override
+    public Expression visitFunctionExprSingleArg(CalculatorParser.FunctionExprSingleArgContext ctx) {
+        switch (ctx.name.getType()) {
+            case CalculatorParser.ABS:
+                return new Abs(visit(ctx.arg));
             default:
                 throw new CalculatorParserException("Failed to create calculator function! " + ctx);
         }
