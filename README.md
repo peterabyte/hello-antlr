@@ -2,7 +2,7 @@
 
 ## Overview
 
-This is a simple test to understand the basics of *ANTLR*.
+This is simple example to understand the basics of *ANTLR*.
 
 ## Dependencies
 
@@ -30,4 +30,4 @@ The following software should be installed on your computer.
 
 ### Testing
 
-To run the Cucumber tests just run the command `gradle --daemon smokeTest`.
+To run the Cucumber tests just run the command `gradle --daemon test`.
